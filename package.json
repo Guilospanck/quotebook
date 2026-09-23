@@ -1,6 +1,6 @@
 {
   "name": "quotebook",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Turn a folder of markdown files into a minimal quotes website and deploy it to GitHub Pages.",
   "type": "module",
   "license": "MIT",
