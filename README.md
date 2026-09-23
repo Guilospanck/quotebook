@@ -7,7 +7,7 @@ Turn a folder of markdown files into a quiet, typographic quotes website, and pu
 - **Plain static output:** HTML and one stylesheet, no framework and no web fonts. JavaScript is used only in slides mode.
 - **Automatic dark mode**, readable on phones, and every quote has its own link (`/meditations/#q-3`).
 
-The demo site in [`examples/basic`](examples/basic/content) is quotebook's documentation written as quotes, so it doubles as a reference for the markdown format.
+**[Live demo](https://guilospanck.github.io/quotebook/)**: quotebook's documentation, written as quotes. Its source in [`examples/basic`](examples/basic/content) doubles as a reference for the markdown format.
 
 ## Quick start
 

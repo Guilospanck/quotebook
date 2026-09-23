@@ -4,5 +4,6 @@
   "contentDir": "content",
   "outDir": "dist",
   "basePath": "/",
-  "layout": "list"
+  "layout": "list",
+  "url": "https://guilospanck.github.io"
 }
