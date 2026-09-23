@@ -25,7 +25,9 @@ cli
 ${bold('Next steps')}
   1. Add books as markdown files in ${result.config.contentDir}/
   2. Preview:  npx quotebook dev
-  3. On GitHub: Settings → Pages → Source: "GitHub Actions", then push to main.
+  3. Before your first push, on GitHub: Settings → Pages → Source: "GitHub Actions".
+     (Otherwise the first deploy fails with "Get Pages site failed"; enable it and re-run.)
+  4. Push to main. Every push redeploys the site.
 `);
   });
 

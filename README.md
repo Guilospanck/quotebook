@@ -16,7 +16,9 @@ npx quotebook init      # config, an example book and a GitHub Pages workflow
 npx quotebook dev       # preview at http://localhost:4321 with live reload
 ```
 
-Then push to GitHub and, **once**, open **Settings → Pages → Build and deployment** and set **Source** to **GitHub Actions**. Every push to `main` then rebuilds and redeploys the site.
+Then, **before your first push**, open your repository's **Settings → Pages → Build and deployment** and set **Source** to **GitHub Actions**. After that, every push to `main` rebuilds and redeploys the site.
+
+> If a deploy fails with `Get Pages site failed ... Not Found`, Pages is not enabled yet. Enable it as above and re-run the workflow. The workflow cannot enable Pages itself, because the default Actions token is not allowed to.
 
 ## Writing books
 

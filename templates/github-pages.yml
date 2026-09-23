@@ -1,5 +1,6 @@
 # Builds your quotebook site and deploys it to GitHub Pages.
-# One-time setup: repository Settings → Pages → Build and deployment → Source: "GitHub Actions".
+# One-time setup, before the first run: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+# Without it, configure-pages fails with "Get Pages site failed ... Not Found".
 name: Deploy quotes to GitHub Pages
 
 on:

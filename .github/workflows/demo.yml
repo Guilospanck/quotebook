@@ -1,4 +1,5 @@
 # Publishes examples/basic as this repository's GitHub Pages demo.
+# One-time setup: Settings → Pages → Build and deployment → Source: "GitHub Actions".
 name: Deploy demo
 
 on:
