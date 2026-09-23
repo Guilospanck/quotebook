@@ -1,0 +1,261 @@
+/* quotebook default theme */
+:root {
+  --bg: #f6f4ee;
+  --ink: #1d1c1a;
+  --muted: #736d62;
+  --rule: #dcd6ca;
+  --accent: #9a4a2c;
+  --code-bg: #ebe7dc;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --measure: 34rem;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141412;
+    --ink: #e8e4da;
+    --muted: #8e887c;
+    --rule: #2d2b27;
+    --accent: #d58a67;
+    --code-bg: #1f1e1b;
+    color-scheme: dark;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration-color: var(--rule); text-underline-offset: 0.2em; }
+a:hover { text-decoration-color: currentColor; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.wrap {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 max(1.25rem, env(safe-area-inset-left)) 0 max(1.25rem, env(safe-area-inset-right));
+}
+
+/* Small uppercase labels: site name, back links, counters */
+.label {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+}
+a.label:hover { color: var(--ink); }
+
+/* ---------- Site header / footer ---------- */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding-block: 2rem;
+}
+
+.site-footer {
+  padding-block: 4rem 3rem;
+  text-align: center;
+}
+
+/* ---------- Home ---------- */
+.home-intro { padding-block: 12vh 4rem; }
+
+.home-intro h1 {
+  margin: 0;
+  font-weight: normal;
+  font-size: clamp(2.2rem, 7vw, 3.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.home-intro p {
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-style: italic;
+  text-wrap: pretty;
+}
+
+.books { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.books li { border-bottom: 1px solid var(--rule); }
+
+.books a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.15rem 1rem;
+  padding-block: 1.25rem;
+  text-decoration: none;
+}
+
+.books .title { font-size: 1.35rem; line-height: 1.3; transition: color 0.15s; }
+.books a:hover .title { color: var(--accent); }
+.books .author { grid-column: 1; color: var(--muted); font-style: italic; font-size: 1rem; }
+.books .count {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.empty { color: var(--muted); font-style: italic; }
+
+/* ---------- Book header ---------- */
+.book-header { padding-block: 8vh 3rem; }
+
+.book-header h1 {
+  margin: 0;
+  font-weight: normal;
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.book-header .author { margin: 0.5rem 0 0; color: var(--muted); font-style: italic; }
+.book-header .intro { margin-top: 2rem; color: var(--muted); }
+.book-header .intro > :first-child { margin-top: 0; }
+
+/* ---------- Quotes ---------- */
+.quote { position: relative; }
+
+.quote blockquote {
+  margin: 0;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+  hanging-punctuation: first;
+}
+
+.quote blockquote > :first-child { margin-top: 0; }
+.quote blockquote > :last-child { margin-bottom: 0; }
+/* Keep the line breaks written in the markdown: quotes are often verse. */
+.quote blockquote p { margin: 0 0 1em; white-space: pre-line; }
+
+/* Code, e.g. commands in documentation-style quotes */
+code {
+  font-family: var(--mono);
+  font-size: 0.82em;
+  background: var(--code-bg);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+pre {
+  margin: 0 0 1em;
+  padding: 0.9rem 1.1rem;
+  overflow-x: auto;
+  background: var(--code-bg);
+  border-radius: 4px;
+  font-size: 0.8em;
+  line-height: 1.55;
+}
+pre code { background: none; padding: 0; font-size: 1em; }
+
+.quote footer {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.quote cite { font-style: italic; }
+.quote cite::before { content: '— '; font-style: normal; }
+
+.quote .num {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  text-decoration: none;
+  color: var(--muted);
+  opacity: 0.7;
+}
+.quote .num:hover { opacity: 1; color: var(--accent); }
+
+.quote .tags { margin-left: auto; font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.04em; }
+
+/* List layout */
+.layout-list .quote { padding-block: 3rem; border-top: 1px solid var(--rule); scroll-margin-top: 2rem; }
+.layout-list .quote:target blockquote { color: var(--accent); }
+
+/* ---------- Pager (prev / next book) ---------- */
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+}
+.pager a { display: flex; flex-direction: column; gap: 0.25rem; text-decoration: none; max-width: 48%; }
+.pager a:hover span:last-child { color: var(--accent); }
+.pager .next { margin-left: auto; text-align: right; }
+
+/* ---------- Slides layout ---------- */
+html:has(.is-slides) { scroll-snap-type: y mandatory; }
+
+.layout-slides .slide {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  align-items: center;
+  scroll-snap-align: start;
+  padding-block: 5rem;
+}
+
+.layout-slides .book-header { padding-block: 0; }
+.layout-slides .quote blockquote { font-size: clamp(1.35rem, 3.2vw, 1.7rem); }
+
+.is-slides .site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  max-width: none;
+  padding-inline: 1.5rem;
+  background: linear-gradient(var(--bg) 40%, transparent);
+  z-index: 1;
+}
+
+.counter {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hint { margin-top: 3rem; }
+
+@media (max-width: 30rem) {
+  body { font-size: 1.0625rem; }
+  .quote blockquote { font-size: 1.2rem; }
+  .hint { display: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}

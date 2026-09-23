@@ -1,0 +1,8 @@
+{
+  "title": "quotebook",
+  "description": "A quotes website, explained in quotes.",
+  "contentDir": "content",
+  "outDir": "dist",
+  "basePath": "/",
+  "layout": "list"
+}

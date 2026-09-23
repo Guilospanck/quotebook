@@ -1,0 +1,57 @@
+{
+  "name": "quotebook",
+  "version": "0.1.0",
+  "description": "Turn a folder of markdown files into a minimal quotes website and deploy it to GitHub Pages.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Guilherme Pereira",
+  "keywords": [
+    "quotes",
+    "markdown",
+    "static-site",
+    "github-pages"
+  ],
+  "bin": {
+    "quotebook": "dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "assets",
+    "templates"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "example": "npm run build && cd examples/basic && node ../../dist/cli.js dev",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "cac": "^7.0.0",
+    "gray-matter": "^4.0.3",
+    "mdast-util-to-string": "^4.0.0",
+    "rehype-stringify": "^10.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "unified": "^11.0.5",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/hast": "^3.0.5",
+    "@types/mdast": "^4.0.4",
+    "@types/node": "^26.6.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.1"
+  }
+}
