@@ -1,0 +1,73 @@
+name: release
+
+# Cut a release by pushing a version tag, e.g. `just tag 1.1.0` (which pushes v1.1.0).
+# Plain pushes to main do nothing here.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    needs: test
+    # Publishing (GitHub Release, npm) happens only for a pushed version tag.
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Tag matches package.json
+        run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # A re-run of a release whose GitHub Release already exists skips instead of failing.
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            echo "Release $GITHUB_REF_NAME already exists; skipping."
+          else
+            # Notes passed to `just tag` live in the annotated tag's message.
+            # Re-fetch the tag itself: checkout may have created it locally as a
+            # lightweight tag pointing at the commit, dropping the annotation.
+            git fetch --force origin "refs/tags/${GITHUB_REF_NAME}:refs/tags/${GITHUB_REF_NAME}"
+            notes_args=()
+            if [[ "$(git cat-file -t "refs/tags/${GITHUB_REF_NAME}")" == "tag" ]]; then
+              # --notes is prepended to the generated changelog.
+              notes_args=(--notes "$(git tag -l --format='%(contents)' "$GITHUB_REF_NAME")")
+            fi
+            gh release create "$GITHUB_REF_NAME" \
+              --title "$GITHUB_REF_NAME" \
+              ${notes_args[@]+"${notes_args[@]}"} \
+              --generate-notes
+          fi
+
+      - run: npm ci
+      # npm trusted publishing: no token. npm exchanges this job's OIDC identity
+      # (permissions: id-token: write) for a short-lived publish credential and
+      # attaches provenance automatically. Configured on npmjs.com under the
+      # package's Settings → Trusted Publisher (GitHub Actions, repo
+      # Guilospanck/quotebook, workflow release.yml). Needs npm >= 11.5.1.
+      # prepublishOnly runs typecheck, tests and build before publishing.
+      - name: Publish to npm (trusted publishing)
+        run: |
+          set -euo pipefail
+          npm install -g npm@^11.5.1
+          name="$(node -p 'require("./package.json").name')"
+          ver="$(node -p 'require("./package.json").version')"
+          # A re-run of a release whose npm step already succeeded skips instead of failing.
+          if npm view "$name@$ver" version >/dev/null 2>&1; then
+            echo "$name@$ver is already on npm; nothing to publish."
+          else
+            npm publish --access public
+          fi
